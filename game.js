@@ -1,3 +1,6 @@
+"use strict";
+
+var Splat = require("splatjs");
 var canvas = document.getElementById("canvas");
 
 var manifest = {
@@ -38,20 +41,39 @@ var colors = [
 	"GoldenRod"
 ];
 
+function drawCircle(context, color, radius, strokeColor, strokeSize, x, y) {
+	context.beginPath();
+	context.arc(x, y, radius, 0, 2 * Math.PI, false);
+	context.fillStyle = color;
+	context.fill();
+	context.lineWidth = strokeSize;
+	context.strokeStyle = strokeColor;
+	context.stroke();
+}
+
+function centerText(context, text, offsetX, offsetY) {
+	var w = context.measureText(text).width;
+	var x = offsetX + (canvas.width / 2) - (w / 2) | 0;
+	var y = offsetY | 0;
+	context.fillText(text, x, y);
+}
+
 game.scenes.add("title", new Splat.Scene(canvas, function() {
-}, function(elapsedMillis) {
+	// initialization
+}, function() {
+	// simulation
 }, function(context) {
-	context.fillStyle = "#000000";
+	// draw
+	context.fillStyle = "#092227";
 	context.fillRect(0, 0, canvas.width, canvas.height);
 
-	var size = 100;
-	if (game.mouse.isPressed(0)) {
-		context.fillStyle = "#ffffff";
-		context.fillRect(game.mouse.x - size - 25, game.mouse.y - size - 25, size * 2 + 50, size * 2 + 50);
-	}
+	context.fillStyle = "#fff";
+	context.font = "25px helvetica";
+	centerText(context, "SplatJS Multitouch Demo", 0, canvas.height - 50);
+
 	for (var i = 0; i < game.mouse.touches.length; i++) {
-		context.fillStyle = colors[i];
-		context.fillRect(game.mouse.touches[i].x - size, game.mouse.touches[i].y - size, size * 2, size * 2);
+		var touch = game.mouse.touches[i];
+		drawCircle(context, colors[i], 48, "white", 3, touch.x, touch.y);
 	}
 }));
 
