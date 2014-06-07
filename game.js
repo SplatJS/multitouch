@@ -71,6 +71,9 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 	context.font = "25px helvetica";
 	centerText(context, "SplatJS Multitouch Demo", 0, canvas.height - 50);
 
+	if (game.mouse.isPressed(0)) {
+		drawCircle(context, "rgba(255,255,255,.4)", 60, "rgba(255,255,255,.8)", 3, game.mouse.x, game.mouse.y);
+	}
 	for (var i = 0; i < game.mouse.touches.length; i++) {
 		var touch = game.mouse.touches[i];
 		drawCircle(context, colors[i], 48, "white", 3, touch.x, touch.y);
