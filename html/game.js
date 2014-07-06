@@ -2,6 +2,8 @@
 
 var Splat = require("splatjs");
 var canvas = document.getElementById("canvas");
+canvas.height = window.innerHeight * window.devicePixelRatio;
+canvas.width = window.innerWidth * window.devicePixelRatio;
 
 var manifest = {
 	"images": {
@@ -69,9 +71,14 @@ game.scenes.add("title", new Splat.Scene(canvas, function() {
 
 	context.fillStyle = "#fff";
 	context.font = "25px helvetica";
-	centerText(context, "SplatJS Multitouch Demo", 0, canvas.height - 50);
+	centerText(context, "SplatJS Multitouch Demo", 0, 30);
+	centerText(context, "Window size: " + window.innerWidth + ", " + window.innerHeight, 0, canvas.height - 200);
+	centerText(context, "Canvas size: " + canvas.width + ", " + canvas.height, 0, canvas.height - 160);
+	centerText(context, "Canvas style size: " + canvas.style.width + ", " + canvas.style.height, 0, canvas.height - 120);
+	centerText(context, "Device Pixel Ratio: " + window.devicePixelRatio, 0, canvas.height - 80);
 
 	if (game.mouse.isPressed(0)) {
+		centerText(context, "First touch: " + game.mouse.x + ", " + game.mouse.y, 0, canvas.height - 35);
 		drawCircle(context, "rgba(255,255,255,.4)", 60, "rgba(255,255,255,.8)", 3, game.mouse.x, game.mouse.y);
 	}
 	for (var i = 0; i < game.mouse.touches.length; i++) {
